@@ -1,10 +1,13 @@
 package com.vitorsantos.barbearia_api.service;
 
-
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.vitorsantos.barbearia_api.dto.ClienteRequestDTO;
+import com.vitorsantos.barbearia_api.dto.ClienteResponseDTO;
+import com.vitorsantos.barbearia_api.exception.ErrorCode;
+import com.vitorsantos.barbearia_api.exception.ResourceNotFoundException;
 import com.vitorsantos.barbearia_api.models.Cliente;
 import com.vitorsantos.barbearia_api.repository.ClienteRepository;
 
@@ -26,23 +29,30 @@ public class ClienteService {
   private final ClienteRepository clienteRepository;
 
   // método para listar clientes
-  public List<Cliente> listarClientes() {
-    return clienteRepository.findAll();
+  public List<ClienteResponseDTO> listarClientes() {
+    return clienteRepository.findAll().stream()
+        .map(ClienteResponseDTO::fromEntity)
+        .toList();
   }
 
   // método para cadastrar clientes
-  public Cliente cadastrarCliente(Cliente cliente) {
-    return clienteRepository.save(cliente);
+  public ClienteResponseDTO cadastrarCliente(ClienteRequestDTO dto) {
+    Cliente cliente = new Cliente();
+    cliente.setNome(dto.nome());
+    cliente.setNumero(dto.numero());
+
+    Cliente clienteSalvo = clienteRepository.save(cliente);
+    return ClienteResponseDTO.fromEntity(clienteSalvo);
   }
 
   // método para deletar clientes
   public void deletarCliente(Long id) {
     if (!clienteRepository.existsById(id)) {
-      throw new RuntimeException("Cliente não encontrado com o ID: " + id);
+      throw new ResourceNotFoundException(
+          "Cliente não encontrado com o ID: " + id,
+          ErrorCode.CLIENTE_NAO_ENCONTRADO);
     }
     clienteRepository.deleteById(id);
-
   }
-
 
 }
