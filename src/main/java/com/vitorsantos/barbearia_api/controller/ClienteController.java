@@ -1,21 +1,23 @@
 package com.vitorsantos.barbearia_api.controller;
 
-
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vitorsantos.barbearia_api.models.Cliente;
+import com.vitorsantos.barbearia_api.dto.ClienteRequestDTO;
+import com.vitorsantos.barbearia_api.dto.ClienteResponseDTO;
 import com.vitorsantos.barbearia_api.service.ClienteService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 @RestController
 @RequestMapping("/clientes")
@@ -25,20 +27,22 @@ public class ClienteController {
   private final ClienteService clienteService;
 
   @GetMapping
-  public List<Cliente> listarClientes() {
+  public List<ClienteResponseDTO> listarClientes() {
     return clienteService.listarClientes();
   }
 
   @PostMapping
-  public ResponseEntity<Cliente> cadastrarCliente(@RequestBody Cliente cliente) {
-    Cliente novoCliente = clienteService.cadastrarCliente(cliente);
-    return ResponseEntity.ok(novoCliente);
+  public ResponseEntity<ClienteResponseDTO> cadastrarCliente(@RequestBody @Valid ClienteRequestDTO dto) {
+    ClienteResponseDTO clienteCriado = clienteService.cadastrarCliente(dto);
+    return ResponseEntity
+        .created(URI.create("/clientes/" + clienteCriado.id()))
+        .body(clienteCriado);
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deletarCliente(Long id) {
+  public ResponseEntity<Void> deletarCliente(@PathVariable Long id) {
     clienteService.deletarCliente(id);
     return ResponseEntity.noContent().build();
   }
-  
+
 }
