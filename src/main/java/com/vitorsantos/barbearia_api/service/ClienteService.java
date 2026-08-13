@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.vitorsantos.barbearia_api.dto.ClienteRequestDTO;
 import com.vitorsantos.barbearia_api.dto.ClienteResponseDTO;
+import com.vitorsantos.barbearia_api.exception.ConflitoDeRegraException;
 import com.vitorsantos.barbearia_api.exception.ErrorCode;
 import com.vitorsantos.barbearia_api.exception.ResourceNotFoundException;
 import com.vitorsantos.barbearia_api.models.Cliente;
@@ -37,6 +38,15 @@ public class ClienteService {
 
   // método para cadastrar clientes
   public ClienteResponseDTO cadastrarCliente(ClienteRequestDTO dto) {
+
+    // dto.numero() já chega normalizado (só dígitos), graças ao compact
+    // constructor do ClienteRequestDTO — aqui só validamos duplicidade.
+    if (clienteRepository.existsByNumero(dto.numero())) {
+      throw new ConflitoDeRegraException(
+          "Já existe um cliente cadastrado com o telefone: " + dto.numero(),
+          ErrorCode.TELEFONE_DUPLICADO);
+    }
+
     Cliente cliente = new Cliente();
     cliente.setNome(dto.nome());
     cliente.setNumero(dto.numero());
