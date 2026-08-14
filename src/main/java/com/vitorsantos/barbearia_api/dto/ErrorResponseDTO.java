@@ -1,7 +1,9 @@
-package com.vitorsantos.barbearia_api.exception;
+package com.vitorsantos.barbearia_api.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.vitorsantos.barbearia_api.enums.ErrorCode;
 
 import lombok.Builder;
 import lombok.Getter;
