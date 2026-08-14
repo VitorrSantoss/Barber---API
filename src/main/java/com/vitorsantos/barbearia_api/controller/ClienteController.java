@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vitorsantos.barbearia_api.dto.ClienteRequestDTO;
 import com.vitorsantos.barbearia_api.dto.ClienteResponseDTO;
-import com.vitorsantos.barbearia_api.exception.ErrorResponseDTO;
+import com.vitorsantos.barbearia_api.dto.ErrorResponseDTO;
 import com.vitorsantos.barbearia_api.service.ClienteService;
 
 import io.swagger.v3.oas.annotations.Operation;
