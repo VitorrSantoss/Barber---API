@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import com.vitorsantos.barbearia_api.dto.ErrorResponseDTO;
 import com.vitorsantos.barbearia_api.enums.ErrorCode;
 
 import lombok.extern.slf4j.Slf4j;
