@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.vitorsantos.barbearia_api.dto.ClienteRequestDTO;
 import com.vitorsantos.barbearia_api.dto.ClienteResponseDTO;
+import com.vitorsantos.barbearia_api.enums.ErrorCode;
 import com.vitorsantos.barbearia_api.exception.ConflitoDeRegraException;
-import com.vitorsantos.barbearia_api.exception.ErrorCode;
 import com.vitorsantos.barbearia_api.exception.ResourceNotFoundException;
 import com.vitorsantos.barbearia_api.models.Cliente;
 import com.vitorsantos.barbearia_api.repository.ClienteRepository;
