@@ -2,6 +2,8 @@ package com.vitorsantos.barbearia_api.exception;
 
 import org.springframework.http.HttpStatus;
 
+import com.vitorsantos.barbearia_api.enums.ErrorCode;
+
 /**
  * Use quando a operação conflita com um estado já existente.
  * Ex: telefone já cadastrado, horário já ocupado por outro agendamento.

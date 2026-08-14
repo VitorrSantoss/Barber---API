@@ -2,6 +2,8 @@ package com.vitorsantos.barbearia_api.exception;
 
 import org.springframework.http.HttpStatus;
 
+import com.vitorsantos.barbearia_api.enums.ErrorCode;
+
 /**
  * Use para regras de validação que o Bean Validation (@Valid, @NotBlank etc.)
  * não cobre — validações que dependem de lógica de negócio.
