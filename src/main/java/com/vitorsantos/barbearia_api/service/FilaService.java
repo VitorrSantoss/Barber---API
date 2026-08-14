@@ -10,6 +10,7 @@ import com.vitorsantos.barbearia_api.enums.ErrorCode;
 import com.vitorsantos.barbearia_api.enums.StatusAgendamento;
 import com.vitorsantos.barbearia_api.exception.ResourceNotFoundException;
 import com.vitorsantos.barbearia_api.models.Agendamento;
+import com.vitorsantos.barbearia_api.models.Barbeiro;
 import com.vitorsantos.barbearia_api.repository.AgendamentoRepository;
 import com.vitorsantos.barbearia_api.repository.BarbeiroRepository;
 
@@ -34,6 +35,21 @@ public class FilaService {
           ErrorCode.BARBEIRO_NAO_ENCONTRADO);
     }
 
+    return montarFilaResponse(barbeiroId);
+  }
+
+  /**
+   * Painel geral: fila de TODOS os barbeiros de uma vez, para uma tela
+   * tipo "quadro da barbearia" mostrando todo mundo ao mesmo tempo.
+   */
+  public List<FilaResponseDTO> consultarFilaDeTodosBarbeiros() {
+    return barbeiroRepository.findAll().stream()
+        .map(Barbeiro::getId)
+        .map(this::montarFilaResponse)
+        .toList();
+  }
+
+  private FilaResponseDTO montarFilaResponse(Long barbeiroId) {
     List<Agendamento> agendamentosNaFila = agendamentoRepository
         .findByBarbeiroIdAndStatusAgendamentoOrderByHoraChegadaAsc(barbeiroId, StatusAgendamento.AGUARDANDO);
 
